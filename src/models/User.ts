@@ -1,4 +1,4 @@
-import mongoose, { model, models } from "mongoose";
+import mongoose, { model, models,Schema } from "mongoose";
 import bcrypt from "bcryptjs";
 
 export interface IUser {
@@ -10,7 +10,7 @@ export interface IUser {
     createdAt? : Date;
     updatedAt?: Date;
     googleId? : string
-    
+    video: Schema.Types.ObjectId[]; // Reference to posts
 }
 
 const userSchema = new mongoose.Schema<IUser>({
@@ -32,6 +32,10 @@ const userSchema = new mongoose.Schema<IUser>({
     enum : ["user", "admin"],
     default : "user"
    },
+   video: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Video', // Link to the Post model
+  }],
    googleId : {
     type : String
    }

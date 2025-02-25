@@ -60,7 +60,7 @@ export async function POST(request: NextRequest){
 
         const videoData = {
             ...body,
-            user: new mongoose.Types.ObjectId(session?.user.id), // ✅ Proper ObjectId
+            user: session?.user.id,
             controls: body.controls ?? true,
 
             transformation: {

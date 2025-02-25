@@ -1,5 +1,5 @@
-import mongoose, { Schema, Types, model, models } from "mongoose";
-import { IUser } from "./User";
+import mongoose, { Schema,  model, models } from "mongoose";
+
 
 export const VIDEO_DIMENSIONS = {
   width: 1080,
@@ -9,7 +9,7 @@ export const VIDEO_DIMENSIONS = {
 export interface IVideo {
 
   _id: mongoose.Types.ObjectId;
-  user?: Types.ObjectId | IUser;
+  user: Schema.Types.ObjectId; // Reference to the User who created the post
   title: string;
   description: string;
   videoUrl: string;
@@ -24,7 +24,11 @@ export interface IVideo {
 
 const videoSchema = new Schema<IVideo>(
   {
-    user:  { type: Schema.Types.ObjectId, ref: "User", required: true }, 
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User', // Link to the User model
+      required: true,
+    },
     title: { type: String, required: true },
     description: { type: String, required: true },
     videoUrl: { type: String, required: true },
