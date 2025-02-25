@@ -1,12 +1,10 @@
-
-
 import { IVideo } from "@/models/Video";
 
 export type VideoFormData = Omit<IVideo, "_id">;
 
 type FetchOptions = {
   method?: "GET" | "POST" | "PUT" | "DELETE";
-  body?:  Record<string, unknown>;
+  body?: Record<string, unknown>;
   headers?: Record<string, string>;
 };
 
@@ -48,6 +46,11 @@ class ApiClient {
       method: "POST",
       body: videoData,
     });
+  }
+
+  // ✅ Add deleteVideo method
+  async deleteVideo(id: string) {
+    return this.fetch(`/videos?id=${id}`, { method: "DELETE" });
   }
 }
 

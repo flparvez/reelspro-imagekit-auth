@@ -59,6 +59,18 @@ export default function Header() {
 
                     <li>
                       <Link
+                        href="/profile"
+                        className="px-4 py-2 hover:bg-base-200 block w-full"
+                        onClick={() =>
+                          showNotification("Welcome to Admin Dashboard", "info")
+                        }
+                      >
+                        Profile
+                      </Link>
+                    </li>
+
+    <li>
+                      <Link
                         href="/upload"
                         className="px-4 py-2 hover:bg-base-200 block w-full"
                         onClick={() =>
@@ -68,6 +80,8 @@ export default function Header() {
                         Video Upload
                       </Link>
                     </li>
+
+
 
                     <li>
                       <button

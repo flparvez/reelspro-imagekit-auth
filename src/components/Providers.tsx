@@ -3,6 +3,7 @@
 import { SessionProvider } from "next-auth/react";
 import { ImageKitProvider } from "imagekitio-next";
 import { NotificationProvider } from "./Notification";
+import { Toaster } from "react-hot-toast";
 
 const urlEndpoint = process.env.NEXT_PUBLIC_URL_ENDPOINT!;
 const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY!;
@@ -27,6 +28,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
           urlEndpoint={urlEndpoint}
           authenticator={authenticator}
         >
+          <Toaster />
           {children}
         </ImageKitProvider>
       </NotificationProvider>
