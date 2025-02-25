@@ -32,7 +32,7 @@ export async function POST(request: NextRequest){
                 {error : "Unauthorized"}, {status: 401}
             )
         }
-         
+        
         await connectToDb();
 
         const body:IVideo = await request.json();
@@ -49,6 +49,7 @@ export async function POST(request: NextRequest){
 
         const videoData = {
             ...body,
+            user: session?.user.id,
             controls: body.controls ?? true,
 
             transformation: {
