@@ -7,12 +7,20 @@ import { Loader2 } from "lucide-react";
 import { useNotification } from "./Notification";
 import { apiClient } from "@/lib/api-client";
 import FileUpload from "./FileUpload";
-import { Schema } from "mongoose";
+import mongoose from "mongoose";
 
 
 interface VideoFormData {
   title: string;
-  user: Schema.Types.ObjectId; // Reference to the User who created the post
+  _id: mongoose.Types.ObjectId;
+  user: {
+    _id: mongoose.Types.ObjectId;
+    name: string;
+    email: string;
+    role: string;
+    video: mongoose.Types.ObjectId[];
+  }
+  
   description: string;
   videoUrl: string;
   thumbnailUrl: string;

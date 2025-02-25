@@ -4,18 +4,26 @@ import { useEffect, useState } from "react";
 import { apiClient } from "@/lib/api-client";
 import { toast } from "react-hot-toast";
 import { IVideo } from "@/models/Video";
+import { useSession } from "next-auth/react";
 
-// Importing ObjectId from MongoDB
-import { ObjectId } from "mongodb";
-
-
-
+// Define IUser interface matching NextAuth's session user
+interface IUser {
+  id: string; // Change to string for NextAuth compatibility
+  name: string;
+  email: string;
+  role: string;
+  videos: string[]; // Store video IDs as strings
+}
 
 const urlEndpoint: string = process.env.NEXT_PUBLIC_URL_ENDPOINT || "";
 
 export default function VideoListTable() {
   const [videos, setVideos] = useState<IVideo[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const { data: session } = useSession();
+  
+  // Ensure user is properly typed
+  const user: IUser | null = session?.user ? (session.user as IUser) : null;
 
   useEffect(() => {
     fetchVideos();
@@ -24,7 +32,7 @@ export default function VideoListTable() {
   const fetchVideos = async () => {
     try {
       setLoading(true);
-      const data = await apiClient.getVideos(); // Ensure correct typing of the response
+      const data: IVideo[] = await apiClient.getVideos();
       setVideos(data);
     } catch (error) {
       toast.error("Failed to fetch videos: " + String(error));
@@ -33,15 +41,22 @@ export default function VideoListTable() {
     }
   };
 
-  const handleDelete = async (id: string | ObjectId) => {
+  // Ensure user is defined before filtering videos
+  const filteredVideos = user
+    ? videos.filter((video: IVideo) => video.user._id?.toString() === user.id)
+    : [];
+
+  const handleDelete = async (id: string) => {
     if (!window.confirm("Are you sure you want to delete this video?")) return;
 
     try {
-      await apiClient.deleteVideo(id.toString()); // Convert to string if it's ObjectId
+      await apiClient.deleteVideo(id);
       toast.success("Video deleted successfully");
 
       // Filter the videos using `toString()` to handle ObjectId correctly
-      setVideos((prev: IVideo[]) => prev.filter((video: IVideo) => video._id?.toString() !== id.toString()));
+      setVideos((prev: IVideo[]) =>
+        prev.filter((video: IVideo) => video._id?.toString() !== id)
+      );
     } catch (error) {
       toast.error("Failed to delete video: " + String(error));
     }
@@ -64,12 +79,12 @@ export default function VideoListTable() {
             <tr>
               <td colSpan={4} className="text-center py-4">Loading videos...</td>
             </tr>
-          ) : videos.length === 0 ? (
+          ) : filteredVideos.length === 0 ? (
             <tr>
               <td colSpan={4} className="text-center py-4">No videos found</td>
             </tr>
           ) : (
-            videos.map((video: IVideo, index: number) => (
+            filteredVideos.map((video: IVideo, index: number) => (
               <tr key={video._id?.toString() || index} className="hover">
                 <td>{index + 1}</td>
                 <td>
@@ -85,8 +100,8 @@ export default function VideoListTable() {
                 <td className="font-semibold">{video.title}</td>
                 <td>
                   <button
-                    onClick={() => handleDelete(video._id )} // Ensure _id is treated as a string
-                    className="btn btn-error btn-sm"
+                    onClick={() => handleDelete(video._id?.toString() || "")}
+                    className="btn text-primary btn-error btn-sm"
                   >
                     Delete
                   </button>

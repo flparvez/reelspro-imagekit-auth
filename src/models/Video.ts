@@ -9,7 +9,13 @@ export const VIDEO_DIMENSIONS = {
 export interface IVideo {
 
   _id: mongoose.Types.ObjectId;
-  user: Schema.Types.ObjectId; // Reference to the User who created the post
+  user: {
+    _id: mongoose.Types.ObjectId;
+    name: string;
+    email: string;
+    role: string;
+    video: mongoose.Types.ObjectId[];
+  }
   title: string;
   description: string;
   videoUrl: string;

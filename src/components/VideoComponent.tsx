@@ -1,6 +1,28 @@
 import { IKVideo } from "imagekitio-next";
+import mongoose from "mongoose";
 import Link from "next/link";
-import { IVideo } from "@/models/Video";
+
+export interface IVideo {
+
+  _id: mongoose.Types.ObjectId;
+  user: {
+    _id: mongoose.Types.ObjectId;
+    name: string;
+    email: string;
+    role: string;
+    video: mongoose.Types.ObjectId[];
+  }
+  title: string;
+  description: string;
+  videoUrl: string;
+  thumbnailUrl: string;
+  controls?: boolean;
+  transformation?: {
+    height: number;
+    width: number;
+    quality?: number;
+  };
+}
 
 export default function VideoComponent({ video }: { video: IVideo }) {
   return (
@@ -32,6 +54,7 @@ export default function VideoComponent({ video }: { video: IVideo }) {
           className="hover:opacity-80 transition-opacity"
         >
           <h2 className="card-title text-lg">{video.title}</h2>
+          <h2 className="card-title text-lg">{video?.user.name}</h2>
         </Link>
 
         <p className="text-sm text-base-content/70 line-clamp-2">
