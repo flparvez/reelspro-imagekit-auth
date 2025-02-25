@@ -15,6 +15,7 @@ const Home = () => {
     const fetchVideos = async () => {
       try {
         const data = await apiClient.getVideos();
+
         setVideos(data);
       } catch (error) {
         console.error("Error fetching videos:", error);
@@ -28,7 +29,7 @@ const Home = () => {
     <main className="container mx-auto px-4 py-8">
   
 
-    <h1 className="text-3xl font-bold mb-8">ImageKit ReelsPro</h1>
+    <h1 className="text-3xl font-bold mb-8">Flparvez ReelsPro</h1>
     <VideoFeed videos={videos} />
   </main>
   )

@@ -14,7 +14,7 @@ export async function GET(){
                 {error : "No videos found"}, {status: 404}
         )  
         }
-        return NextResponse.json({videos})
+        return NextResponse.json(videos)
     } catch (error) {
         return NextResponse.json(
             {error : "Failed to fetch videos"+ error}, {status: 500}
