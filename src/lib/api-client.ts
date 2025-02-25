@@ -1,10 +1,12 @@
+
+
 import { IVideo } from "@/models/Video";
 
 export type VideoFormData = Omit<IVideo, "_id">;
 
 type FetchOptions = {
   method?: "GET" | "POST" | "PUT" | "DELETE";
-  body?: Record<string, unknown>;
+  body?:  Record<string, unknown>;
   headers?: Record<string, string>;
 };
 
