@@ -8,6 +8,8 @@ import { useNotification } from "./Notification";
 import { apiClient } from "@/lib/api-client";
 import FileUpload from "./FileUpload";
 import mongoose from "mongoose";
+import { useRouter } from "next/navigation";
+
 
 
 interface VideoFormData {
@@ -30,7 +32,7 @@ export default function VideoUploadForm() {
   const [loading, setLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const { showNotification } = useNotification();
-
+const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -72,6 +74,7 @@ export default function VideoUploadForm() {
       setValue("videoUrl", "");
       setValue("thumbnailUrl", "");
       setUploadProgress(0);
+      router.push("/");
     } catch (error) {
       showNotification(
         error instanceof Error ? error.message : "Failed to publish video",

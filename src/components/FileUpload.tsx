@@ -22,7 +22,7 @@ export default function FileUpload({
   const onError = (err: { message: string }) => {
     setError(err.message);
     setUploading(false);
-  };    
+  };
 
   const handleSuccess = (response: IKUploadResponse) => {
     setUploading(false);
@@ -40,6 +40,17 @@ export default function FileUpload({
       const percentComplete = (evt.loaded / evt.total) * 100;
       onProgress(Math.round(percentComplete));
     }
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    // Validate file
+    if (!validateFile(file)) return;
+
+    setUploading(true);
+    setError(null);
   };
 
   const validateFile = (file: File) => {
@@ -76,9 +87,16 @@ export default function FileUpload({
         onUploadProgress={handleProgress}
         accept={fileType === "video" ? "video/*" : "image/*"}
         className="file-input file-input-bordered w-full"
-        validateFile={validateFile}
         useUniqueFileName={true}
         folder={fileType === "video" ? "/videos" : "/images"}
+        isPrivateFile={false} // Ensure public file upload (change if needed)
+      />
+
+      <input
+        type="file"
+        accept={fileType === "video" ? "video/*" : "image/*"}
+        className="hidden"
+        onChange={handleFileChange}
       />
 
       {uploading && (
