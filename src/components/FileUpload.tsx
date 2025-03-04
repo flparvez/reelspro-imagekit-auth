@@ -118,7 +118,6 @@ export default function FileUpload({
       },
     ],
   }}
-  style={{display: 'none'}} // hide the default input and use the custom upload button
  
 />
 
