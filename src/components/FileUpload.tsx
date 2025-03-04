@@ -107,7 +107,7 @@ export default function FileUpload({
   folder={fileType === "video" ? "/videos" : "/images"}
   isPrivateFile={false} // Ensure public file upload (change if needed)
 
-  // ✅ Add a Watermark with "Unique Store BD"
+  // ✅ Add a Watermark with "Unique Store BD" d
 
   transformation={{
     pre: "l-text,i-Imagekit,fs-50,l-end",
