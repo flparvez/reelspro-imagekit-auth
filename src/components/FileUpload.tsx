@@ -108,9 +108,18 @@ export default function FileUpload({
   isPrivateFile={false} // Ensure public file upload (change if needed)
 
   // ✅ Add a Watermark with "Unique Store BD"
+
   transformation={{
-    pre: "l-text,Unique Store BD,fs-50,co-FFFFFF,bg-000000,px-20,py-10,gravity-center",
+    pre: "l-text,i-Imagekit,fs-50,l-end",
+    post: [
+      {
+        type: "transformation",
+        value: "w-100",
+      },
+    ],
   }}
+  style={{display: 'none'}} // hide the default input and use the custom upload button
+ 
 />
 
 
