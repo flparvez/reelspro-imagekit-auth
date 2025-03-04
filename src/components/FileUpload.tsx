@@ -94,6 +94,7 @@ export default function FileUpload({
   
   return (
     <div className="space-y-2">
+
 <IKUpload
   fileName={fileType === "video" ? "video" : "image"}
   onError={onError}
@@ -106,36 +107,11 @@ export default function FileUpload({
   folder={fileType === "video" ? "/videos" : "/images"}
   isPrivateFile={false} // Ensure public file upload (change if needed)
 
-  // Apply text watermark with "Unique Store BD"
+  // ✅ Add a Watermark with "Unique Store BD"
   transformation={{
-    pre: "l-text,i-Unique%20Store%20BD,co-FFFFFF,fs-40,bg-00000080,ox-20,oy-20,g-south_east",
-
-    post: [
-      {
-        type: "transformation",
-        value: "w-800,h-600,q-90", // Adjust width, height, quality
-      },
-    ],
+    pre: "l-text,Unique Store BD,fs-50,co-FFFFFF,bg-000000,px-20,py-10,gravity-center",
   }}
-
-  // OR Use a Custom Logo Watermark (Uncomment to use)
-  /*
-  extensions={[
-    {
-      name: "overlay",
-      options: {
-        image: "https://your-imagekit-url.com/unique-store-bd-logo.png", // Replace with your actual logo URL
-        width: 120, // Adjust logo size
-        height: 60,
-        opacity: 80, // Adjust opacity (0-100)
-        gravity: "south_east", // Position bottom-right
-        overlayX: 20, // X offset
-        overlayY: 20, // Y offset
-      },
-    },
-  ]}
-  */
- />
+/>
 
 
       <input
