@@ -54,43 +54,89 @@ export default function FileUpload({
   };
 
   const validateFile = (file: File) => {
-    if (fileType === "video") {
-      if (!file.type.startsWith("video/")) {
-        setError("Please upload a valid video file");
-        return false;
-      }
-      if (file.size > 100 * 1024 * 1024) {
-        setError("Video size must be less than 100MB");
-        return false;
-      }
-    } else {
-      const validTypes = ["image/jpeg", "image/png", "image/webp"];
-      if (!validTypes.includes(file.type)) {
+    const imageMaxSize = 10 * 1024 * 1024; // 10MB
+    const videoMaxSize = 200 * 1024 * 1024; // 200MB
+    const validImageTypes = ["image/jpeg", "image/png", "image/webp"];
+    const validVideoTypes = ["video/mp4", "video/mov", "video/avi", "video/webm", "video/mkv"]; // Common video formats
+  
+    // Check if it's an image
+    if (file.type.startsWith("image/")) {
+      if (!validImageTypes.includes(file.type)) {
         setError("Please upload a valid image file (JPEG, PNG, or WebP)");
         return false;
       }
-      if (file.size > 5 * 1024 * 1024) {
-        setError("File size must be less than 5MB");
+      if (file.size > imageMaxSize) {
+        setError("Image size must be less than 10MB");
         return false;
       }
+    } 
+    // Check if it's a video
+    else if (file.type.startsWith("video/")) {
+      if (!validVideoTypes.includes(file.type)) {
+        setError("Please upload a valid video file (MP4, MOV, AVI, WEBM, MKV)");
+        return false;
+      }
+      if (file.size > videoMaxSize) {
+        setError("Video size must be less than 200MB");
+        return false;
+      }
+    } 
+    // If the file is neither image nor video
+    else {
+      setError("Invalid file type. Please upload an image or video.");
+      return false;
     }
+  
+    // Clear error and return valid
+    setError(null);
     return true;
   };
-
+  
   return (
     <div className="space-y-2">
-      <IKUpload
-        fileName={fileType === "video" ? "video" : "image"}
-        onError={onError}
-        onSuccess={handleSuccess}
-        onUploadStart={handleStartUpload}
-        onUploadProgress={handleProgress}
-        accept={fileType === "video" ? "video/*" : "image/*"}
-        className="file-input file-input-bordered w-full"
-        useUniqueFileName={true}
-        folder={fileType === "video" ? "/videos" : "/images"}
-        isPrivateFile={false} // Ensure public file upload (change if needed)
-      />
+<IKUpload
+  fileName={fileType === "video" ? "video" : "image"}
+  onError={onError}
+  onSuccess={handleSuccess}
+  onUploadStart={handleStartUpload}
+  onUploadProgress={handleProgress}
+  accept={fileType === "video" ? "video/*" : "image/*"}
+  className="file-input file-input-bordered w-full"
+  useUniqueFileName={true}
+  folder={fileType === "video" ? "/videos" : "/images"}
+  isPrivateFile={false} // Ensure public file upload (change if needed)
+
+  // Apply text watermark with "Unique Store BD"
+  transformation={{
+    pre: "l-text,i-Unique%20Store%20BD,co-FFFFFF,fs-40,bg-00000080,ox-20,oy-20,g-south_east",
+
+    post: [
+      {
+        type: "transformation",
+        value: "w-800,h-600,q-90", // Adjust width, height, quality
+      },
+    ],
+  }}
+
+  // OR Use a Custom Logo Watermark (Uncomment to use)
+  /*
+  extensions={[
+    {
+      name: "overlay",
+      options: {
+        image: "https://your-imagekit-url.com/unique-store-bd-logo.png", // Replace with your actual logo URL
+        width: 120, // Adjust logo size
+        height: 60,
+        opacity: 80, // Adjust opacity (0-100)
+        gravity: "south_east", // Position bottom-right
+        overlayX: 20, // X offset
+        overlayY: 20, // Y offset
+      },
+    },
+  ]}
+  */
+ />
+
 
       <input
         type="file"
