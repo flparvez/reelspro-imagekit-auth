@@ -33,17 +33,28 @@ export default function VideoComponent({ video }: { video: IVideo }) {
             className="rounded-xl overflow-hidden relative w-full"
             style={{ aspectRatio: "9/16" }}
           >
-            <IKVideo
-              path={video.videoUrl}
-              transformation={[
-                {
-                  height: "1920",
-                  width: "1080",
-                },
-              ]}
-              controls={video.controls}
-              className="w-full h-full object-cover"
-            />
+        <IKVideo
+  path={video.videoUrl}
+  transformation={[
+    {
+      height: "1920",
+      width: "1080",
+    },
+    {
+      overlayText: "Unique Store BD", // ✅ Watermark text
+      overlayTextFontSize: "50", // ✅ Font size (adjust as needed)
+      overlayTextFontFamily: "Arial", // ✅ Font style
+      overlayTextColor: "FFFFFF", // ✅ White text color
+      overlayTextTransparency: "30", // ✅ 0-100 (Lower = more visible)
+      overlayTextBackground: "000000", // ✅ Black background (optional)
+      overlayTextPadding: "20", // ✅ Padding around the text
+      overlayTextPosition: "bottom_right", // ✅ Position: center, top_left, etc.
+    },
+  ]}
+  controls={video.controls}
+  className="w-full h-full object-cover"
+/>
+
           </div>
         </Link>
       </figure>
@@ -54,7 +65,7 @@ export default function VideoComponent({ video }: { video: IVideo }) {
           className="hover:opacity-80 transition-opacity"
         >
           <h2 className="card-title text-lg">{video.title}</h2>
-          <h2 className="card-title text-lg">{video?.user.name}</h2>
+          <h2 className="card-title text-lg">Author : {video?.user.name}</h2>
         </Link>
 
         <p className="text-sm text-base-content/70 line-clamp-2">
