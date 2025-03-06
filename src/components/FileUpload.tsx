@@ -27,8 +27,7 @@ export default function FileUpload({
   const handleSuccess = (response: IKUploadResponse) => {
     setUploading(false);
     setError(null);
-    const watermarkedUrl = addWatermark(response.url);
-    onSuccess({ ...response, url: watermarkedUrl });
+    onSuccess(response);
   };
 
   const handleStartUpload = () => {
@@ -58,7 +57,7 @@ export default function FileUpload({
     const imageMaxSize = 10 * 1024 * 1024; // 10MB
     const videoMaxSize = 200 * 1024 * 1024; // 200MB
     const validImageTypes = ["image/jpeg", "image/png", "image/webp"];
-    const validVideoTypes = ["video/mp4", "video/mov", "video/avi", "video/webm", "video/mkv"]; // Common video formats
+    const validVideoTypes = ["video/mp4", "video/mov", "video/avi", "video/webm", "video/mkv"];
 
     if (file.type.startsWith("image/")) {
       if (!validImageTypes.includes(file.type)) {
@@ -87,14 +86,6 @@ export default function FileUpload({
     return true;
   };
 
-  // ✅ Apply Watermark (Text Overlay)
-  const addWatermark = (fileUrl: string) => {
-    return fileUrl.replace(
-      "/upload/",
-      "/tr:w-800,l-text:Arial_40_bold:Unique%20Store%20BD,co_white,g_south_e/"
-    );
-  };
-
   return (
     <div className="space-y-2">
       <IKUpload
@@ -107,18 +98,11 @@ export default function FileUpload({
         className="file-input file-input-bordered w-full"
         useUniqueFileName={true}
         folder={fileType === "video" ? "/videos" : "/images"}
-        isPrivateFile={false} // Ensure public file upload (change if needed)
+        isPrivateFile={false}
 
-        // ✅ Transformation: Adds watermark
-        // transformation={{
-        //   pre: "l-text:Arial_40_bold:Unique Store BD,co_white,g_south_e",
-        //   post: [
-        //     {
-        //       type: "transformation",
-        //       value: "w-800", // Resize width
-        //     },
-        //   ],
-        // }}
+        // ✅ Add Permanent Watermark (Text Overlay)
+        responseFields={["transformation"]}
+        customCoordinates="l-text:Arial_40_bold:Unique Store BD,co_white,g_south_e"
       />
 
       <input
