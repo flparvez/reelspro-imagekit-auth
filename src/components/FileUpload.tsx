@@ -110,15 +110,15 @@ export default function FileUpload({
         isPrivateFile={false} // Ensure public file upload (change if needed)
 
         // ✅ Transformation: Adds watermark
-        transformation={{
-          pre: "l-text:Arial_40_bold:Unique Store BD,co_white,g_south_e",
-          post: [
-            {
-              type: "transformation",
-              value: "w-800", // Resize width
-            },
-          ],
-        }}
+        // transformation={{
+        //   pre: "l-text:Arial_40_bold:Unique Store BD,co_white,g_south_e",
+        //   post: [
+        //     {
+        //       type: "transformation",
+        //       value: "w-800", // Resize width
+        //     },
+        //   ],
+        // }}
       />
 
       <input
