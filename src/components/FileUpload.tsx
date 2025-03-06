@@ -27,7 +27,8 @@ export default function FileUpload({
   const handleSuccess = (response: IKUploadResponse) => {
     setUploading(false);
     setError(null);
-    onSuccess(response);
+    const watermarkedUrl = addWatermark(response.url);
+    onSuccess({ ...response, url: watermarkedUrl });
   };
 
   const handleStartUpload = () => {
@@ -58,8 +59,7 @@ export default function FileUpload({
     const videoMaxSize = 200 * 1024 * 1024; // 200MB
     const validImageTypes = ["image/jpeg", "image/png", "image/webp"];
     const validVideoTypes = ["video/mp4", "video/mov", "video/avi", "video/webm", "video/mkv"]; // Common video formats
-  
-    // Check if it's an image
+
     if (file.type.startsWith("image/")) {
       if (!validImageTypes.includes(file.type)) {
         setError("Please upload a valid image file (JPEG, PNG, or WebP)");
@@ -69,9 +69,7 @@ export default function FileUpload({
         setError("Image size must be less than 10MB");
         return false;
       }
-    } 
-    // Check if it's a video
-    else if (file.type.startsWith("video/")) {
+    } else if (file.type.startsWith("video/")) {
       if (!validVideoTypes.includes(file.type)) {
         setError("Please upload a valid video file (MP4, MOV, AVI, WEBM, MKV)");
         return false;
@@ -80,47 +78,48 @@ export default function FileUpload({
         setError("Video size must be less than 200MB");
         return false;
       }
-    } 
-    // If the file is neither image nor video
-    else {
+    } else {
       setError("Invalid file type. Please upload an image or video.");
       return false;
     }
-  
-    // Clear error and return valid
+
     setError(null);
     return true;
   };
-  
+
+  // ✅ Apply Watermark (Text Overlay)
+  const addWatermark = (fileUrl: string) => {
+    return fileUrl.replace(
+      "/upload/",
+      "/tr:w-800,l-text:Arial_40_bold:Unique%20Store%20BD,co_white,g_south_e/"
+    );
+  };
+
   return (
     <div className="space-y-2">
+      <IKUpload
+        fileName={fileType === "video" ? "video" : "image"}
+        onError={onError}
+        onSuccess={handleSuccess}
+        onUploadStart={handleStartUpload}
+        onUploadProgress={handleProgress}
+        accept={fileType === "video" ? "video/*" : "image/*"}
+        className="file-input file-input-bordered w-full"
+        useUniqueFileName={true}
+        folder={fileType === "video" ? "/videos" : "/images"}
+        isPrivateFile={false} // Ensure public file upload (change if needed)
 
-<IKUpload
-  fileName={fileType === "video" ? "video" : "image"}
-  onError={onError}
-  onSuccess={handleSuccess}
-  onUploadStart={handleStartUpload}
-  onUploadProgress={handleProgress}
-  accept={fileType === "video" ? "video/*" : "image/*"}
-  className="file-input file-input-bordered w-full"
-  useUniqueFileName={true}
-  folder={fileType === "video" ? "/videos" : "/images"}
-  isPrivateFile={false} // Ensure public file upload (change if needed)
-
-  // ✅ Add a Watermark with "Unique Store BD" d
-
-  // transformation={{
-  //   pre: "l-text,i-Imagekit,fs-50,l-end",
-  //   post: [
-  //     {
-  //       type: "transformation",
-  //       value: "w-100",
-  //     },
-  //   ],
-  // }}
- 
-/>
-
+        // ✅ Transformation: Adds watermark
+        transformation={{
+          pre: "l-text:Arial_40_bold:Unique Store BD,co_white,g_south_e",
+          post: [
+            {
+              type: "transformation",
+              value: "w-800", // Resize width
+            },
+          ],
+        }}
+      />
 
       <input
         type="file"
