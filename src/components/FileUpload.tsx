@@ -100,7 +100,7 @@ export default function FileUpload({
         folder={fileType === "video" ? "/videos" : "/images"}
         isPrivateFile={false}
 
-        // ✅ Add Permanent Watermark (Text Overlay)
+        // ✅ Permanent Text Watermark
         responseFields={["transformation"]}
         customCoordinates="l-text:Arial_40_bold:Unique Store BD,co_white,g_south_e"
       />
