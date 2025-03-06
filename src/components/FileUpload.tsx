@@ -109,15 +109,15 @@ export default function FileUpload({
 
   // ✅ Add a Watermark with "Unique Store BD" d
 
-  transformation={{
-    pre: "l-text,i-Imagekit,fs-50,l-end",
-    post: [
-      {
-        type: "transformation",
-        value: "w-100",
-      },
-    ],
-  }}
+  // transformation={{
+  //   pre: "l-text,i-Imagekit,fs-50,l-end",
+  //   post: [
+  //     {
+  //       type: "transformation",
+  //       value: "w-100",
+  //     },
+  //   ],
+  // }}
  
 />
 
