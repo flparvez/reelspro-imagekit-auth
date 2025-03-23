@@ -99,9 +99,16 @@ export default function FileUpload({
         useUniqueFileName={true}
         folder={fileType === "video" ? "/videos" : "/images"}
         isPrivateFile={false}
+      
         transformation={{
-          pre: `l-text,i-${Text},fs-25,co-black,bg-FFFFFF,pa-10,l-end`,
-          post: [
+          // For video, apply resizing and other appropriate transformations
+          pre: fileType === "video" ? "w-1000" : `l-text,i-${Text},fs-25,co-black,bg-FFFFFF,pa-10,l-end`,
+          post: fileType === "video" ? [
+            {
+              type: "transformation",
+              value: "quality-80",
+            },
+          ] : [
             {
               type: "transformation",
               value: "w-100",
@@ -109,6 +116,7 @@ export default function FileUpload({
           ],
         }}
       />
+
 
       <input
         type="file"
