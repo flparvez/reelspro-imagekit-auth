@@ -84,8 +84,7 @@ export default function FileUpload({
     return true;
   };
 
-  // Encode "Unique Store BD" into Base64
-  const encodedText = btoa("Unique Store BD");
+  const Text = "Unique Store BD"
 
   return (
     <div className="space-y-2">
@@ -101,7 +100,7 @@ export default function FileUpload({
         folder={fileType === "video" ? "/videos" : "/images"}
         isPrivateFile={false}
         transformation={{
-          pre: `l-text,${encodedText},co_orange,fs-40,fw-700,g-center`,
+          pre: `l-text,i-${Text},fs-25,co-black,bg-FFFFFF,pa-10,l-end`,
           post: [
             {
               type: "transformation",
