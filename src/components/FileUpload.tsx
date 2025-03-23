@@ -1,5 +1,3 @@
-"use client";
-
 import { IKUpload } from "imagekitio-next";
 import { IKUploadResponse } from "imagekitio-next/dist/types/components/IKUpload/props";
 import { useState } from "react";
@@ -86,6 +84,9 @@ export default function FileUpload({
     return true;
   };
 
+  // Encode "Unique Store BD" into Base64
+  const encodedText = btoa("Unique Store BD");
+
   return (
     <div className="space-y-2">
       <IKUpload
@@ -100,8 +101,7 @@ export default function FileUpload({
         folder={fileType === "video" ? "/videos" : "/images"}
         isPrivateFile={false}
         transformation={{
-          pre: "l-text,i-Unique Store Bd,fs-25,co-black,bg-FFFFFF,pa-10,l-end",
-    
+          pre: `l-text,${encodedText},co_orange,fs-40,fw-700,g-center`,
           post: [
             {
               type: "transformation",
@@ -109,7 +109,6 @@ export default function FileUpload({
             },
           ],
         }}
-
       />
 
       <input
