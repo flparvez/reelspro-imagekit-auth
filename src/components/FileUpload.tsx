@@ -84,7 +84,7 @@ export default function FileUpload({
     return true;
   };
 
-  const Text = "Unique Store BD";
+  // const Text = "Unique Store BD";
 
   return (
     <div className="space-y-2">
@@ -99,21 +99,21 @@ export default function FileUpload({
         useUniqueFileName={true}
         folder={fileType === "video" ? "/videos" : "/images"}
         isPrivateFile={false}
-        transformation={{
-          // Apply simple transformation for video: resizing
-          pre: fileType === "video" ? "w-1000,h-500" : `l-text,i-${Text},fs-25,co-black,bg-FFFFFF,pa-10,l-end`,
-          post: fileType === "video" ? [
-            {
-              type: "transformation",
-              value: "quality-80",
-            },
-          ] : [
-            {
-              type: "transformation",
-              value: "w-100",
-            },
-          ],
-        }}
+        // transformation={{
+        //   // Apply simple transformation for video: resizing
+        //   pre: fileType === "video" ? "w-1000,h-500" : `l-text,i-${Text},fs-25,co-black,bg-FFFFFF,pa-10,l-end`,
+        //   post: fileType === "video" ? [
+        //     {
+        //       type: "transformation",
+        //       value: "quality-80",
+        //     },
+        //   ] : [
+        //     {
+        //       type: "transformation",
+        //       value: "w-100",
+        //     },
+        //   ],
+        // }}
       />
 
       <input
