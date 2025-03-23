@@ -55,7 +55,7 @@ export default function FileUpload({
 
   const validateFile = (file: File) => {
     const imageMaxSize = 10 * 1024 * 1024; // 10MB
-    const videoMaxSize = 200 * 1024 * 1024; // 200MB
+    const videoMaxSize = 400 * 1024 * 1024; // 400MB
     const validImageTypes = ["image/jpeg", "image/png", "image/webp"];
     const validVideoTypes = ["video/mp4", "video/mov", "video/avi", "video/webm", "video/mkv"];
 
@@ -74,7 +74,7 @@ export default function FileUpload({
         return false;
       }
       if (file.size > videoMaxSize) {
-        setError("Video size must be less than 200MB");
+        setError("Video size must be less than 400MB");
         return false;
       }
     } else {
@@ -99,6 +99,16 @@ export default function FileUpload({
         useUniqueFileName={true}
         folder={fileType === "video" ? "/videos" : "/images"}
         isPrivateFile={false}
+        transformation={{
+          pre: "l-text,i-Unique Store Bd,fs-25,co-black,bg-FFFFFF,pa-10,l-end",
+    
+          post: [
+            {
+              type: "transformation",
+              value: "w-100",
+            },
+          ],
+        }}
 
       />
 
